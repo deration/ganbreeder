@@ -1,10 +1,12 @@
 # Ganbreeder
 
-[Ganbreeder](https://ganbreeder.app) is a collaborative art tool for discovering images. Images are 'bred' by having children, mixing with other images and being shared via their URL. This is an experiment in using breeding + sharing as methods of exploring high complexity spaces. GAN's are simply the engine enabling this. Ganbreeder is very similar to, and named after, Picbreeder. It is also inspired by an earlier project of mine [Facebook Graffiti](http://www.joelsimon.net/facebook-graffiti.html) which demonstrated the creative capacity of crowds.Ganbreeder uses [these](https://tfhub.dev/deepmind/biggan-128/2) models.
+[Ganbreeder](https://ganbreeder.app) is a collaborative art tool for discovering images. Images are 'bred' by having children, mixing with other images and being shared via their URL. This is an experiment in using breeding + sharing as methods of exploring high complexity spaces. GAN's are simply the engine enabling this. Ganbreeder is very similar to, and named after, Picbreeder. You should note that Ganbreeder propose an open source of the mixing capacity at the core of Artbreeder.com but is not a copy of it as Artbreeder propose more features. Ganbreeder is also inspired by an earlier project of mine [Facebook Graffiti](http://www.joelsimon.net/facebook-graffiti.html) which demonstrated the creative capacity of crowds. Ganbreeder uses [these](https://tfhub.dev/deepmind/biggan-128/2) models.
 
 This code was made in a weekend and hasn't been cleaned up or documented yet. There are also improvements to make to scalability.
 
 Pull request are more than welcome :)
+
+ It 
 
 ## How to use
 
@@ -12,6 +14,8 @@ Pull request are more than welcome :)
 * Install Python 3 + pip (for the GAN server)
 * Install NodeJS + npm (for the frontend)
 * Install a PostgreSQL server
+
+Be aware that the Python version may be ahead of TensorFlow compatibility and that it may be of necessity to install an earlier version. You might want to use Anaconda to install and manage the prerequisite. 
 
 ### Launch the GAN server
 ```bash
@@ -30,14 +34,14 @@ docker run -p 5432:5432 --name ganbreederpostgres -e POSTGRES_PASSWORD=ganbreede
 ```
 With that simple scenario, the database and user would be `postgres` and the password would be `ganbreederpostgres`
 
-Copy the file `server/example_secrets.js` to `secrets.js` and modify it to fit your environment.
+Copy the file `server/example_secrets.js` to `server/secrets.js` and modify it to fit your environment. For instance if you spawned the PostgreSQL database with Docker you should the database, user and password proposed in the preceding paragraph. Be aware that you must also indicate you AWS accessKeyId and secretAccessKey within this file.
 
 ### Launch the frontend
 ```bash
 cd server
 npm install
 # Create the database structure
-node_modules/knex/bin/cli.js migrate:latest
+node node_modules/knex/bin/cli.js migrate:latest
 # Generate the first images
 node make_randoms.js
 # Generate a cache of image keys for the front page (do it every time you want to update the front page)
